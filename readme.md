@@ -1,3 +1,5 @@
+![](shot.png)
+
 # Setup
 
 ## Download datasets
