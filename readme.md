@@ -49,12 +49,7 @@ To compute how many mining concessions overlap with protected areas, run:
 ```
 python compute_intersections.py
 
+extending protected area radius by meters: 1000.0
+p concessions intersecting w/ at least one protected area: 0.7174499140054851
+mean intersections w/ protected areas: 1.7346096947314997
 ```
-
----
-
-# Notes
-
-Results of `compute_intersections.py` w/ all protected areas:
-- p concessions intersecting w/ at least one protected area: 0.708414033891652
-- mean intersections w/ protected areas: 1.7185880097112154
