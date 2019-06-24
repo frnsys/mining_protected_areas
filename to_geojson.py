@@ -4,7 +4,7 @@ import pandas as pd
 from tqdm import tqdm
 
 data = [
-    ('data/protected/WDPA_Jun2019-shapefile-polygons.shp', 'protected')
+    ('data/protected/WDPA_Jun2019-shapefile-polygons.shp', 'protected'),
     ('data/concessions/Mining_concessions.shp', 'concessions')
 ]
 
