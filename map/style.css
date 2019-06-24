@@ -1,0 +1,24 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#main {
+  height: 100vh;
+}
+
+.mapboxgl-popup-content p {
+  margin: 0;
+  line-height: 1.2;
+}
+.mapboxgl-popup-content h5 {
+  margin: 1em 0 0 0;
+  line-height: 1;
+}
+.protected {
+  color: #35a42c;
+}
+.concession {
+  color: #e62a20;
+}
+

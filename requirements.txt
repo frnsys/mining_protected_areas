@@ -1,0 +1,5 @@
+Fiona==1.7.13
+tqdm==4.11.2
+numpy==1.14.3
+Shapely==1.6.4.post2
+Pyqtree==1.0.0
