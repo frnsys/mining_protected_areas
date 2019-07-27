@@ -43,10 +43,7 @@ General procedure:
 3. `python to_geojson.py`
     1. Generates the geojson data necessary for creating the Mapbox tileset, converting back to WGS84
 
-```
-```
-
-## Generate Mapbox tiles
+Then generate Mapbox tiles:
 
 ```
 # <https://docs.mapbox.com/help/troubleshooting/large-data-tippecanoe/>
