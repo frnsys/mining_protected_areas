@@ -1,22 +1,32 @@
 import json
-import fiona
-import pandas as pd
 from tqdm import tqdm
+from transform import to_wgs84
 
-data = [
-    ('data/protected/WDPA_Jun2019-shapefile-polygons.shp', 'protected'),
-    ('data/concessions/Mining_concessions.shp', 'concessions')
-]
+intersected = set()
+with open('data/intersections.json', 'r') as f:
+    intersections = json.load(f)
+    for vs in tqdm(intersections, desc='Intersections'):
+        for v in vs:
+            intersected.add(v)
 
-for inp, out in data:
-    props = []
-    features = []
-    for shp in tqdm(fiona.open(inp)):
-        props.append(shp['properties'])
-        features.append(shp)
+# Protected areas, separating overlapped and non-overlapped
+with open('data/protected.json', 'r') as f:
+    protected = json.load(f)
 
-    df = pd.DataFrame(props)
-    df.to_csv('data/{}_props.csv'.format(out), index=False)
+pa = {
+    'overlap': {'type': 'FeatureCollection', 'features': []},
+    'no_overlap': {'type': 'FeatureCollection', 'features': []}
+}
+for i, feat in tqdm(enumerate(protected['features']), desc='Separating protected areas'):
+    k = 'overlap' if i in intersected else 'no_overlap'
+    feat, shp = to_wgs84(feat)
+    pa[k]['features'].append(feat)
+for k, d in pa.items():
+    with open('data/tile/protected_{}.json'.format(k), 'w') as f:
+        json.dump(d, f)
 
-    with open('data/{}.json'.format(out), 'w') as f:
-        json.dump({'type': 'FeatureCollection', 'features': features}, f)
+with open('data/concessions.json', 'r') as f:
+    concessions = json.load(f)
+concessions['features'] = [to_wgs84(feat)[0] for feat in concessions['features']]
+with open('data/tile/concessions.json', 'w') as f:
+    json.dump(concessions, f)

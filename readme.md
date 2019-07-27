@@ -29,27 +29,28 @@ make -j
 make install
 ```
 
+## Calculate overlaps
+
+General procedure:
+
+1. `python compute_candidates.py`
+    1. Index protected area bounding boxes in a q-tree for fast lookups
+    2. Get protected area bounding box intersections against mining concession bounding boxes
+    3. Convert shapes to Web Mercator projection
+    4. Generate geojson files for mining concessions and protected areas, filtering protected areas to only those in countries with mining concession data
+2. `./compute_intersections 1000 data/intersection_candidates.json data/concessions.json data/protected.json data/intersections.json`
+    1. Because a bounding box intersection does not necessarily mean a shape intersection, we have to check that the shapes also intersect or are within a specified buffer distance
+3. `python to_geojson.py`
+    1. Generates the geojson data necessary for creating the Mapbox tileset, converting back to WGS84
+
+```
+```
+
 ## Generate Mapbox tiles
 
 ```
-# First, convert to geojson
-# Note: these files are large, so this will take awhile.
-python to_geojson.py
-
 # <https://docs.mapbox.com/help/troubleshooting/large-data-tippecanoe/>
-tippecanoe -o out.mbtiles -zg --drop-densest-as-needed data/concessions.json data/protected.json
+tippecanoe -f -o data/tile/tileset.mbtiles -zg --drop-densest-as-needed data/tile/concessions.json data/tile/protected_overlap.json data/tile/protected_no_overlap.json
 ```
 
 Then upload to Mapbox studio as a tileset. These tiles are loaded into the map visualization.
-
-# Run intersection script
-
-To compute how many mining concessions overlap with protected areas, run:
-
-```
-python compute_intersections.py
-
-extending protected area radius by meters: 1000.0
-p concessions intersecting w/ at least one protected area: 0.7174499140054851
-mean intersections w/ protected areas: 1.7346096947314997
-```

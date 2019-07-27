@@ -1,0 +1,19 @@
+Buffer: 0.0m
+Protected: 12586
+2731 protected areas overlap
+0.2169871285555379 protected areas overlap
+
+Buffer: 1000.0m
+Protected: 12586
+3123 protected areas overlap
+0.24813284601938662 protected areas overlap
+
+Buffer: 5000.0m
+Protected: 12586
+3395 protected areas overlap
+0.26974416017797553 protected areas overlap
+
+Buffer: 5000.0m
+Protected: 12586
+3395 protected areas overlap
+0.26974416017797553 protected areas overlap
