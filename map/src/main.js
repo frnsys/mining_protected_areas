@@ -13,6 +13,34 @@ const map = new mapboxgl.Map({
 
 map.on('load', function () {
   map.addLayer({
+    'id': 'protected_overlap',
+    'type': 'fill',
+    'source': {
+      type: 'vector',
+      url: 'mapbox://frnsys.969ws66w'
+    },
+    'source-layer': 'protected_overlap',
+    'paint': {
+      'fill-color': 'rgba(252,208,63,0.8)',
+      'fill-outline-color': '#fcd03f'
+    }
+  });
+
+  map.addLayer({
+    'id': 'protected_no_overlap',
+    'type': 'fill',
+    'source': {
+      type: 'vector',
+      url: 'mapbox://frnsys.969ws66w'
+    },
+    'source-layer': 'protected_no_overlap',
+    'paint': {
+      'fill-color': 'rgba(32,193,86,0.8)',
+      'fill-outline-color': '#076827'
+    }
+  });
+
+  map.addLayer({
     'id': 'concessions',
     'type': 'fill',
     'source': {
@@ -25,34 +53,28 @@ map.on('load', function () {
       'fill-outline-color': '#7a1007'
     }
   });
-
-  map.addLayer({
-    'id': 'protected',
-    'type': 'fill',
-    'source': {
-      type: 'vector',
-      url: 'mapbox://frnsys.969ws66w'
-    },
-    'source-layer': 'protected',
-    'paint': {
-      'fill-color': 'rgba(32,193,86,0.8)',
-      'fill-outline-color': '#076827'
-    }
-  });
 });
 
 map.on('click', function(e) {
   let features = map.queryRenderedFeatures(e.point);
   features = features.reduce((acc, f) => {
-    if (['protected', 'concessions'].includes(f.source)) {
+    if (['protected_overlap', 'protected_no_overlap', 'concessions'].includes(f.source)) {
       acc[f.source] = f;
     }
     return acc;
   }, {});
   if (Object.keys(features).length > 0) {
     let html = '';
-    if (features['protected']) {
-      let f = features['protected'].properties;
+    if (features['protected_overlap']) {
+      let f = features['protected_overlap'].properties;
+      html += `<h5 class="protected">Protected Area</h5>
+        <p>
+          ${f.NAME}</br>
+          ${f.DESIG_ENG}
+        </p>`;
+    }
+    if (features['protected_no_overlap']) {
+      let f = features['protected_no_overlap'].properties;
       html += `<h5 class="protected">Protected Area</h5>
         <p>
           ${f.NAME}</br>
