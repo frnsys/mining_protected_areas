@@ -10,6 +10,8 @@ const map = new mapboxgl.Map({
   zoom: 2,
   center: [-73.935242, 40.730610],
 });
+map.dragRotate.disable();
+map.touchZoomRotate.disableRotation();
 
 map.on('load', function () {
   map.addLayer({
@@ -53,11 +55,29 @@ map.on('load', function () {
       'fill-outline-color': '#7a1007'
     }
   });
+
+
+  // Object.keys(data).forEach((id) => {
+  //   let meta = data[id];
+  //   map.addSource(`sat_${id}`, {
+  //     'type': 'image',
+  //     'url': `/assets/${id}.png`,
+  //     'coordinates': meta.box
+  //   });
+  //   map.addLayer({
+  //     'id': `sat_${id}`,
+  //     'source': `sat_${id}`,
+  //     'type': 'raster',
+  //     'paint': {'raster-opacity': 0.85}
+  //   });
+  // });
 });
 
 map.on('click', function(e) {
   let features = map.queryRenderedFeatures(e.point);
+  console.log(features);
   features = features.reduce((acc, f) => {
+    // TODO include multiple overlapping features
     if (['protected_overlap', 'protected_no_overlap', 'concessions'].includes(f.source)) {
       acc[f.source] = f;
     }
