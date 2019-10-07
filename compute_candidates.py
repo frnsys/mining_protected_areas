@@ -6,7 +6,7 @@ from pyqtree import Index
 from transform import from_wgs84
 
 MINING_SHAPEFILE = 'data/concessions/Mining_concessions.shp'
-PROTECTED_SHAPEFILE = 'data/protected/WDPA_Jun2019-shapefile-polygons.shp'
+PROTECTED_SHAPEFILE = 'data/protected/WDPA_poly_Sep2019.shp'
 
 def to_json(props, feats, out):
     print('Saving...')
